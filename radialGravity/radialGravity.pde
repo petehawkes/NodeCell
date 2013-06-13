@@ -13,19 +13,16 @@ void setup() {
 
   allNodes = new ArrayList();
 
-  for (int i=0; i<40; i++) {
+  for (int i=0; i<2; i++) {
     PVector p = new PVector(random(-10, 10), random(-10, 10)); 
-    addNode(p, random(5, 60));
+    addNode(p, random(50, 100));
   }
 }
-
-
 
 
 void draw() {
 
   background(0);
-
 
   pushMatrix();
   translate(width/2, height/2);
@@ -42,7 +39,8 @@ void draw() {
 
 
 void checkHit(Node n) {
-
+  
+  n.clearVectors();
 
   for (int i=0; i<allNodes.size(); i++) {
     Node c = (Node) allNodes.get(i);
@@ -51,13 +49,15 @@ void checkHit(Node n) {
       float d = c.pos.dist(n.pos);
       float x = c.pos.x - n.pos.x;
       float y = c.pos.y - n.pos.y;
-      float r = c.rad + n.rad;
-      if (d < r) {      
+      float r = c.radius + n.radius;
+      if (d < r) {
           d = (d - r) / d * .5;
           c.pos.x -= x *= d;
           c.pos.y -= y *= d;
           n.pos.x += x;
-          n.pos.y += y;   
+          n.pos.y += y;      
+          n.hitVectors.add(new PVector(c.pos.x-n.pos.x, c.pos.y - n.pos.y));
+          //println(n.hitVectors);
       }
     }
   }
@@ -86,7 +86,7 @@ void checkNode() {
       } 
     }
     
-    if (!gotHit) addNode(new PVector (mx, my), random(10, 60));
+    if (!gotHit) addNode(new PVector (mx, my), random(50, 100));
 
   
 }
