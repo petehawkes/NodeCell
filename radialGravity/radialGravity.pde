@@ -15,7 +15,7 @@ void setup() {
 
   allNodes = new ArrayList();
 
-  for (int i=0; i<30; i++) {
+  for (int i=0; i<2; i++) {
     PVector p = new PVector(random(-10, 10), random(-10, 10)); 
     addNode(p, random(minSize, maxSize));
   }

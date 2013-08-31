@@ -24,7 +24,7 @@ class Node {
     growthRate = 1;
     hit = false;
     killMe = false;
-    currentAlpha = 50;
+    currentAlpha = .5;
     vertexCount = 20;
     hitVectors = new ArrayList();
   }
@@ -37,7 +37,7 @@ class Node {
     fill(clr, currentAlpha);
     ellipse(0, 0, radius*2, radius*2); 
 
-    //drawEdge();
+    drawEdge();
 
     popMatrix();
   }
@@ -67,31 +67,14 @@ class Node {
   }
 
   void drawEdge() {
-    fill(100, 50);
+    fill(1, .1);
     noStroke();
-    //beginShape();
-    for (int i=0; i<vertexCount; i++) {
-      float rad = TWO_PI/vertexCount * i;
-      PVector v = new PVector(cos(rad), sin(rad));
-      float dampen = 1.0;
-      if (hitVectors.size()>0) {
-        for (int j=0; j<hitVectors.size(); j++) {
-          PVector p = (PVector) hitVectors.get(j);
-          PVector c = v.get();
-          
-          float dist = c.dist(p);
-          println(i +":"+dist);
-          if (dist < 50) dampen = dist/200;
-     
-        }
-      }
-      
-      ellipse(v.x * radius * dampen, v.y * radius * dampen, 3, 3);
-      stroke(100, 20);
-      line(0, 0, v.x, v.y);
-      //vertex(v.x * dampen , v.y * dampen);
+    beginShape();
+    for (int i=0; i<hitVectors.size(); i++) {
+      PVector v = (PVector) hitVectors.get(i);
+      vertex(v.x, v.y);
     }
-    //endShape(CLOSE);
+    endShape(CLOSE);
   }
 
   void clearVectors() {
