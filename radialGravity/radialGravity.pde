@@ -57,8 +57,13 @@ void checkHit(Node n) {
         c.pos.x -= x *= d;
         c.pos.y -= y *= d;
         n.pos.x += x;
-        n.pos.y += y;      
-        n.hitVectors.add(new PVector(c.pos.x, c.pos.y));
+        n.pos.y += y; 
+        PVector v = new PVector(c.pos.x, c.pos.y);
+        v.sub(n.pos);
+        v.normalize();
+        //float a = PVector.angleBetween(v, n);
+        v.mult(n.radius);     
+        n.hitVectors.add(v);
         //println(n.hitVectors);
       }
     }
@@ -88,7 +93,7 @@ void checkNode() {
   }
 
   if (!gotHit) { 
-    for (int i=0; i<1; i++)
+    for (int i=0; i<3; i++)
     addNode(new PVector (mx, my), random(minSize, maxSize));
   }
 }

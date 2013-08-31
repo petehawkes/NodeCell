@@ -14,6 +14,7 @@ class Node {
   boolean resizeMe;
   int vertexCount;
   ArrayList hitVectors;
+  ArrayList sortedVectors;
 
 
   Node (PVector _pos, float _radius ) {
@@ -39,6 +40,7 @@ class Node {
     fill(clr, currentAlpha);
     ellipse(0, 0, radius*2, radius*2); 
 
+    sortVectors();
     drawEdge();
 
     popMatrix();
@@ -67,6 +69,10 @@ class Node {
       return false;
     }
   }
+  
+  void sortVectors() {
+     
+  }
 
   void drawEdge() {
     fill(clr, 1);
@@ -75,11 +81,8 @@ class Node {
     //beginShape();
     for (int i=0; i<hitVectors.size(); i++) {
       PVector v = (PVector) hitVectors.get(i);
-      v.sub(pos);
-      v.normalize();
-      v.mult(radius);
-      //p.add(v);
       ellipse(v.x, v.y, 10, 10);
+      //vertex(v.x, v.y);
     }
     //endShape(CLOSE);
   }
