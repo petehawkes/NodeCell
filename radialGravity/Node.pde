@@ -7,6 +7,7 @@ class Node {
   float growthRate;
   float currentAlpha;
   color clr;
+  color clr2 = color(random(0, 1), 1, .5);
   String name;
   boolean hit;
   boolean killMe;
@@ -19,7 +20,8 @@ class Node {
     pos = _pos;
     radius = _radius;
     mass = _radius*_radius/100000;
-    //clr = color(random(40, 60), 100, 100);
+    if (mass < .05) mass = .02;
+    println(mass);
     clr = color(.1, 1, 1);
     growthRate = 1;
     hit = false;
@@ -43,8 +45,7 @@ class Node {
   }
 
   void update() {
-    pos.div(1+mass);
-    
+    pos.div(1+(mass)); 
   } 
   
   void toggleResize() {
@@ -54,6 +55,7 @@ class Node {
     } else {
       clr = color(.1, 1, 1);
     }
+    
       
   }
 
@@ -67,20 +69,28 @@ class Node {
   }
 
   void drawEdge() {
-    fill(1, .1);
+    fill(clr, 1);
+    //fill(clr2);
     noStroke();
-    beginShape();
+    //beginShape();
     for (int i=0; i<hitVectors.size(); i++) {
       PVector v = (PVector) hitVectors.get(i);
-      vertex(v.x, v.y);
+      v.sub(pos);
+      v.normalize();
+      v.mult(radius);
+      //p.add(v);
+      ellipse(v.x, v.y, 10, 10);
     }
-    endShape(CLOSE);
+    //endShape(CLOSE);
   }
 
   void clearVectors() {
-    for (int i=0; i<hitVectors.size(); i++) {
-      hitVectors.remove(i);
-    }
+    println("size:"+hitVectors.size());
+//    for (int i=hitVectors.size()-1; i>0; i--) {
+//      hitVectors.remove(i);
+//    }
+    while(hitVectors.size() > 0) hitVectors.remove(0);
+    println("sizeafter:"+hitVectors.size());
   }
 };
 

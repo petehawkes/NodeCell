@@ -58,7 +58,7 @@ void checkHit(Node n) {
         c.pos.y -= y *= d;
         n.pos.x += x;
         n.pos.y += y;      
-        n.hitVectors.add(new PVector(c.pos.x-n.pos.x, c.pos.y - n.pos.y));
+        n.hitVectors.add(new PVector(c.pos.x, c.pos.y));
         //println(n.hitVectors);
       }
     }
@@ -88,6 +88,7 @@ void checkNode() {
   }
 
   if (!gotHit) { 
+    for (int i=0; i<1; i++)
     addNode(new PVector (mx, my), random(minSize, maxSize));
   }
 }
