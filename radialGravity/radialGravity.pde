@@ -58,13 +58,12 @@ void checkHit(Node n) {
         c.pos.y -= y *= d;
         n.pos.x += x;
         n.pos.y += y; 
-        PVector v = new PVector(c.pos.x, c.pos.y);
+        PVector v = new PVector(c.pos.x, c.pos.y);  
         v.sub(n.pos);
         v.normalize();
-        //float a = PVector.angleBetween(v, n);
-        v.mult(n.radius);     
+        v.mult(n.radius);
+        v.z = v.heading();
         n.hitVectors.add(v);
-        //println(n.hitVectors);
       }
     }
   }
