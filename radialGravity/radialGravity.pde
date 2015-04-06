@@ -40,35 +40,42 @@ void draw() {
 }
 
 
-void checkHit(Node n) {
-
-  n.clearVectors();
+void checkHit(Node self) {
+  self.clearVectors();
+  
+  println(self.vertexCount);
 
   for (int i=0; i<allNodes.size(); i++) {
-    Node c = (Node) allNodes.get(i);
+    Node neighbor = (Node) allNodes.get(i);
 
-    if (c != n) {
-      float d = c.pos.dist(n.pos);
-      float x = c.pos.x - n.pos.x;
-      float y = c.pos.y - n.pos.y;
-      float r = c.radius + n.radius;
-      if (d < r) {
-        d = (d - r) / d * .5;
-        c.pos.x -= x *= d;
-        c.pos.y -= y *= d;
-        n.pos.x += x;
-        n.pos.y += y; 
-        PVector v = new PVector(c.pos.x, c.pos.y);  
-        v.sub(n.pos);
-        v.normalize();
-        v.mult(n.radius);
-        v.z = v.heading();
-        n.hitVectors.add(v);
+    if (self != neighbor) {
+      float distance = neighbor.pos.dist(self.pos);
+      float x = neighbor.pos.x - self.pos.x;
+      float y = neighbor.pos.y - self.pos.y;
+      float touchDistance = neighbor.radius + self.radius;
+
+      // check to see if I'm touching my neighbor
+      if (distance < touchDistance) {
+          float overlap = (distance - touchDistance) / distance;
+          overlap *= .5; // each only moves half, since the neighbor moves too
+          neighbor.pos.x -= x * overlap;
+          neighbor.pos.y -= y * overlap;
+          self.pos.x += x * overlap;
+          self.pos.y += y * overlap; 
+      }
+      if (distance < touchDistance * 1.2) {
+          //
+          // store close neighbors for edge drawing
+          PVector v = new PVector(neighbor.pos.x, neighbor.pos.y);  
+          v.sub(self.pos);
+          v.normalize();
+          v.mult(self.radius);
+          v.z = v.heading();
+          self.neighbors.add(v);
       }
     }
   }
 }
-
 
 
 void addNode(PVector newPos, float rad) {
@@ -92,7 +99,7 @@ void checkNode() {
   }
 
   if (!gotHit) { 
-    for (int i=0; i<3; i++)
+    for (int i=0; i<1; i++)
     addNode(new PVector (mx, my), random(minSize, maxSize));
   }
 }
@@ -118,12 +125,11 @@ void mouseReleased() {
 
 void keyPressed() {
   
- 
      for (int i=allNodes.size()-1; i>=0; i--) {
         Node c = (Node) allNodes.get(i);
         if (c.resizeMe) {
-          if (key == 'x') c.radius *= 1.2;
-          if (key == 'z') c.radius *= .8;
+          if (key == 'x') c.radiusTarg *= 1.2;
+          if (key == 'z') c.radiusTarg *= .8;
         }  
       }
   
