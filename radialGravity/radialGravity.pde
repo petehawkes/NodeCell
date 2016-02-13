@@ -4,6 +4,11 @@ ArrayList allNodes;
 int minSize = 20;
 int maxSize = 100;
 
+float system_right = 0;
+float system_left = 0;
+float system_top = 0;
+float system_bottom = 0;
+
 
 void setup() {
 
@@ -28,22 +33,54 @@ void draw() {
 
   pushMatrix();
   translate(width/2, height/2);
+
+  system_right = 0;
+  system_left = 0;
+  system_top = 0;
+  system_bottom = 0;
+
   for (int i=0; i<allNodes.size(); i++) {
     Node c = (Node) allNodes.get(i);
     checkHit(c);
     c.update();
     c.display();
+    checkBounds(c);
   }
+  
+  fill(.2, 1, 1);
+  ellipse(system_right, 0, 10, 10);
+  fill(.4, 1, 1);
+  ellipse(system_left, 0, 10, 10);
+  fill(.6, 1, 1);
+  ellipse(0, system_top, 10, 10);
+  fill(.8, 1, 1);
+  ellipse(0, system_bottom, 10, 10);
+ 
   popMatrix();
+  
+  pushMatrix();
+  translate(width/2, height/2);
+  
+  noFill();
+  stroke(1, 0, 0.7);
+  ellipse(0, 0, 600, 600);
+  popMatrix();
+
 
   killDeadNodes();
 }
 
+void checkBounds (Node c) {
+  if (c.pos.x > system_right) system_right = c.pos.x + c.radius;
+  if (c.pos.x < system_left) system_left = c.pos.x - c.radius;
+  if (c.pos.y > system_top) system_top = c.pos.y + c.radius;
+  if (c.pos.y < system_bottom) system_bottom = c.pos.y - c.radius;
+}
 
 void checkHit(Node self) {
   self.clearVectors();
 
-  println(self.vertexCount);
+  //println(self.vertexCount);
 
   for (int i=0; i<allNodes.size(); i++) {
     Node neighbor = (Node) allNodes.get(i);
@@ -105,14 +142,12 @@ void checkNode() {
 }
 
 
-
 void killDeadNodes() {
   for (int i=allNodes.size()-1; i>=0; i--) {
     Node c = (Node) allNodes.get(i);
     if (c.killMe) allNodes.remove(i);
   }
 }
-
 
 
 void mousePressed() {
@@ -129,9 +164,8 @@ void keyPressed() {
     Node c = (Node) allNodes.get(i);
     if (c.hitTest(new PVector((mouseX - width/2), (mouseY - height/2)))) {
       if (key == 'x') c.radiusTarg *= 1.1; 
-      if (key == 'z') c.radiusTarg *= .9; 
+      if (key == 'z') c.radiusTarg *= .9;
     }
-    
   }
 }
 
