@@ -7,7 +7,7 @@ int maxSize = 100;
 
 void setup() {
 
-  size(800, 600);
+  size(800, 800);
   smooth();
   noStroke();
 
@@ -42,7 +42,7 @@ void draw() {
 
 void checkHit(Node self) {
   self.clearVectors();
-  
+
   println(self.vertexCount);
 
   for (int i=0; i<allNodes.size(); i++) {
@@ -56,22 +56,22 @@ void checkHit(Node self) {
 
       // check to see if I'm touching my neighbor
       if (distance < touchDistance) {
-          float overlap = (distance - touchDistance) / distance;
-          overlap *= .5; // each only moves half, since the neighbor moves too
-          neighbor.pos.x -= x * overlap;
-          neighbor.pos.y -= y * overlap;
-          self.pos.x += x * overlap;
-          self.pos.y += y * overlap; 
+        float overlap = (distance - touchDistance) / distance;
+        overlap *= .5; // each only moves half, since the neighbor moves too
+        neighbor.pos.x -= x * overlap;
+        neighbor.pos.y -= y * overlap;
+        self.pos.x += x * overlap;
+        self.pos.y += y * overlap;
       }
       if (distance < touchDistance * 1.2) {
-          //
-          // store close neighbors for edge drawing
-          PVector v = new PVector(neighbor.pos.x, neighbor.pos.y);  
-          v.sub(self.pos);
-          v.normalize();
-          v.mult(self.radius);
-          v.z = v.heading();
-          self.neighbors.add(v);
+        //
+        // store close neighbors for edge drawing
+        PVector v = new PVector(neighbor.pos.x, neighbor.pos.y);  
+        v.sub(self.pos);
+        v.normalize();
+        v.mult(self.radius);
+        //v.z = v.heading();
+        self.neighbors.add(v);
       }
     }
   }
@@ -100,7 +100,7 @@ void checkNode() {
 
   if (!gotHit) { 
     for (int i=0; i<1; i++)
-    addNode(new PVector (mx, my), random(minSize, maxSize));
+      addNode(new PVector (mx, my), random(minSize, maxSize));
   }
 }
 
@@ -124,16 +124,14 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  
-     for (int i=allNodes.size()-1; i>=0; i--) {
-        Node c = (Node) allNodes.get(i);
-        if (c.resizeMe) {
-          if (key == 'x') c.radiusTarg *= 1.2;
-          if (key == 'z') c.radiusTarg *= .8;
-        }  
-      }
-  
 
+  for (int i=allNodes.size()-1; i>=0; i--) {
+    Node c = (Node) allNodes.get(i);
+    if (c.hitTest(new PVector((mouseX - width/2), (mouseY - height/2)))) {
+      if (key == 'x') c.radiusTarg *= 1.1; 
+      if (key == 'z') c.radiusTarg *= .9; 
+    }
+    
+  }
 }
-
 
