@@ -24,7 +24,7 @@ class Node {
     mass = _radius*_radius/240000;
     if (mass < .05) mass = .02;
     //println(mass);
-    clr = color(1, 0, 1);
+    clr = color(.6, 1, 1);
     growthRate = 1;
     hit = false;
     killMe = false;
@@ -52,17 +52,17 @@ class Node {
 
   void update() {
     pos.div(1+(mass));
-    radius += (radiusTarg - radius) * .3;
+    radius += (radiusTarg - radius) * .5;
     sortNeighbors();
   } 
 
   void toggleResize() {
     resizeMe = !resizeMe;
     if (resizeMe) {
-      clr = color(.5, 1, 1);
+      clr = color(.58, 1, 1);
     } 
     else {
-      clr = color(1, 0, 1);
+      clr = color(.6, 1, 1);
     }
   }
 

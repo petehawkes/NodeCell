@@ -24,7 +24,7 @@ void setup() {
 
 void draw() {
 
-  background(0);
+  background(1);
 
   pushMatrix();
   translate(width/2, height/2);
