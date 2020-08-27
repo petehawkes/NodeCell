@@ -45,14 +45,14 @@ class Node {
     fill(clr, currentAlpha);
     ellipse(0, 0, radius*2, radius*2); 
 
-    drawEdge();
+    //drawEdge();
 
     popMatrix();
   }
 
   void update() {
     pos.div(1+(mass));
-    radius += (radiusTarg - radius) * .5;
+    radius += (radiusTarg - radius) * .3;
     sortNeighbors();
   } 
 
@@ -119,4 +119,3 @@ class Node {
     while (sortedNeighbors.size () > 0) sortedNeighbors.remove(0);
   }
 };
-

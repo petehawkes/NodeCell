@@ -47,6 +47,8 @@ void draw() {
     checkBounds(c);
   }
   
+  // bound checkers
+  /*
   fill(.2, 1, 1);
   ellipse(system_right, 0, 10, 10);
   fill(.4, 1, 1);
@@ -55,6 +57,7 @@ void draw() {
   ellipse(0, system_top, 10, 10);
   fill(.8, 1, 1);
   ellipse(0, system_bottom, 10, 10);
+  */
  
   popMatrix();
   
@@ -65,7 +68,6 @@ void draw() {
   stroke(1, 0, 0.7);
   ellipse(0, 0, 600, 600);
   popMatrix();
-
 
   killDeadNodes();
 }
@@ -163,9 +165,9 @@ void keyPressed() {
   for (int i=allNodes.size()-1; i>=0; i--) {
     Node c = (Node) allNodes.get(i);
     if (c.hitTest(new PVector((mouseX - width/2), (mouseY - height/2)))) {
-      if (key == 'x') c.radiusTarg *= 1.1; 
-      if (key == 'z') c.radiusTarg *= .9;
+      if (key == 'x') c.radiusTarg *= 1.2; 
+      if (key == 'z') c.radiusTarg *= .8;
+      if (key == 'd') c.killMe = true;
     }
   }
 }
-
